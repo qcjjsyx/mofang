@@ -18,18 +18,9 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="magicglobal.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="magicCube.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="magicglobal.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="magicCube.h">
+    <ClInclude Include="RubikCube.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

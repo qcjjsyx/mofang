@@ -1,36 +1,38 @@
-#include <iostream>
-#include <vector>
-#include "magicglobal.h"
-#include "magicCube.h"
-using namespace std;
-/*
-* white 1
-* yellow 2
-* blue 3
-* red 4
-* green 5
-* orange 6
-*/
+#include "RubikCube.hpp"
+#include "iostream"
 
-extern vector<int> white;
-extern vector<int> yellow;
-extern vector<int> blue;
-extern vector<int> red;
-extern vector<int> green;
-extern vector<int> orange;
+
+using namespace std;
 
 int main() {
+    RubikCube cube;
 
-	magicCube cube;
-	cube.initCube();
-	cube.showCube();
-	if (cube.judge())
-		cout << "OK" << endl;
-	cube.rotaR();
-	cube.showCube();
-	if (!cube.judge())
-		cout << "NO" << endl;
+    cout << "Initial Cube:" << endl;
+    cube.printCube();
 
-	//cout << "hello world!" << endl;
-	return 0;
+    cube.rotateLeft();
+    cout << "Cube after rotating left face:" << endl;
+    cube.printCube();
+
+    cube.rotateRight();
+    cout << "Cube after rotating right face:" << endl;
+    cube.printCube();
+
+    cube.rotateTop();
+    cout << "Cube after rotating top face:" << endl;
+    cube.printCube();
+
+    cube.rotateBottom();
+    cout << "Cube after rotating bottom face:" << endl;
+    cube.printCube();
+
+    cube.rotateFront();
+    cout << "Cube after rotating front face:" << endl;
+    cube.printCube();
+
+    cube.rotateBack();
+    cout << "Cube after rotating back face:" << endl;
+    cube.printCube();
+
+    return 0;
 }
