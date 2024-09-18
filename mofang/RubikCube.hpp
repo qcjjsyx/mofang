@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include<cstdlib>
+#include<ctime>
 
 using namespace std;
 
@@ -108,6 +110,23 @@ public:
             cube[3][i][2] = cube[5][2][2 - i];
             cube[5][2][i] = cube[1][2 - i][0];
             cube[1][i][0] = temp[i];
+        }
+    }
+
+    // Ëæ»ú´òÂÒÄ§·½
+    void scramble(int moves = 20) {
+        srand(time(0));
+        for (int i = 0; i < moves; ++i) {
+            int randMove = rand() % 6;
+            switch (randMove)
+            {
+            case 0: rotateLeft(); break;
+            case 1: rotateRight(); break;
+            case 2: rotateTop(); break;
+            case 3: rotateBottom(); break;
+            case 4: rotateFront(); break;
+            case 5: rotateBack(); break;
+            }
         }
     }
 
