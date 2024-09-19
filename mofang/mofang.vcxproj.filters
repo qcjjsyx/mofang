@@ -23,5 +23,8 @@
     <ClInclude Include="RubikCube.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Solution.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
