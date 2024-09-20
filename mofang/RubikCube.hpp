@@ -11,7 +11,7 @@ using namespace std;
 
 class RubikCube {
 private:
-    vector<vector<vector<char>>> cube;
+    
 
     // 旋转一个面90度顺时针
     void rotateFace(vector<vector<char>>& face) {
@@ -34,6 +34,7 @@ private:
     }
 
 public:
+    vector<vector<vector<char>>> cube;
     // 构造函数，初始化魔方
     RubikCube() {
         cube.resize(6, vector<vector<char>>(3, vector<char>(3)));
@@ -133,7 +134,7 @@ public:
             cube[2][2][i] = temp[i];
         }
     }
-    void roateBottomInverse() {
+    void rotateBottomInverse() {
         rotateFaceIneverse(cube[5]);
         vector<char> temp = { cube[1][2][0], cube[1][2][1], cube[1][2][2] };
         for (int i = 0; i < 3; ++i) {
@@ -194,10 +195,29 @@ public:
         else if (move == "D") rotateBottom();
         else if (move == "F") rotateFront();
         else if (move == "B") rotateBack();
+        else if (move == "_L") rotateLeftIneverse();
+        else if (move == "_R") rotateRightInverse();
+        else if (move == "_U") rotateTopInverse();
+        else if (move == "_D") rotateBottomInverse();
+        else if (move == "_F") rotateFrontInverse();
+        else if (move == "_B") rotateBackInverse();
     }
-
+    void applyRotateInverse(const string& move) {
+        if (move == "L") rotateLeftIneverse();
+        else if (move == "R") rotateRightInverse();
+        else if (move == "U") rotateTopInverse();
+        else if (move == "D") rotateBottomInverse();
+        else if (move == "F") rotateFrontInverse();
+        else if (move == "B") rotateBackInverse();
+        else if (move == "_L") rotateLeft();
+        else if (move == "_R") rotateRight();
+        else if (move == "_U") rotateTop();
+        else if (move == "_D") rotateBottom();
+        else if (move == "_F") rotateFront();
+        else if (move == "_B") rotateBack();
+    }
     // 随机打乱魔方
-    void scramble(int moves = 20) {
+    void scramble(int moves) {
         srand(time(0));
         for (int i = 0; i < moves; ++i) {
             int randMove = rand() % 6;
