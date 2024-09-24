@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-    Solution solution = Solution(5);
-    cout << solution.DFS(0, 10) << endl;
+    Solution solution = Solution(10);
+    cout << solution.DFS(0, 15) << endl;
     cout << "hello";
 }

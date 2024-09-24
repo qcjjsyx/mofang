@@ -18,6 +18,7 @@ public:
 
 	}
 	vector<string> order;
+	//因为想不出好的剪枝方法，我觉得DFS是在这方面是垃圾
 	bool DFS(int depth, int maxdepth) {
 		if (depth > maxdepth) {
 			return false;
@@ -40,7 +41,6 @@ public:
 		}
 		return false;
 	}
-
 
 
 

@@ -130,6 +130,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CubeState.hpp" />
     <ClInclude Include="RubikCube.hpp" />
     <ClInclude Include="Solution.hpp" />
   </ItemGroup>
