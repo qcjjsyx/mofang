@@ -29,5 +29,11 @@
     <ClInclude Include="CubeState.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Search.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="NewSolution.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

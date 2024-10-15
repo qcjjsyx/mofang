@@ -1,11 +1,13 @@
 #include "RubikCube.hpp"
 #include "iostream"
 #include "Solution.hpp"
-
+#include "CubeState.hpp"
 using namespace std;
 
 int main() {
-    Solution solution = Solution(10);
-    cout << solution.DFS(0, 15) << endl;
-    cout << "hello";
+	cube_t cube;
+	CubeState cubeState = CubeState();
+	cubeState.printCube(cube);
+	cubeState.scrambleCube(10, cube);
+	cubeState.printCube(cube);
 }

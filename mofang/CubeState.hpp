@@ -5,6 +5,7 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 #define MOVECUBE 20
 
 using namespace std;
@@ -101,8 +102,9 @@ struct cube_t
 				cornorOrientation[i] = 0;
 			}
 
+            edgeIndex[i] = i;
 			edgeOrientation[i] = 0;
-			edgeIndex[i] = i;
+			
 		}
 	}
 
@@ -194,9 +196,8 @@ map<string, int> str2move{
 
 class CubeState {
 public:
-    cube_t cube;
     //vector<int> scrambleMoves;
-    void moveRotate(int move) {
+    cube_t moveRotate(int move, cube_t& cube) {
         int face = move / 3;
         int rotateCount = move % 3 + 1;
         cube_t ret = cube;
@@ -247,20 +248,34 @@ public:
             }
         }
         
-        cube = ret;
-    };
-    void scrambleCube(int moveNums) {
-        srand(static_cast<unsigned int>(std::time(nullptr)));
-        //scrambleMoves.clear();
-        cube_t cube;
-        for (int i = 0; i < moveNums; ++i) {
-            int index = rand() % 18;
-            moveRotate(str2move[moves[index]]);
-        }
-        
+        return ret;
     };
 
+    void scrambleCube(int moveNums, cube_t& cube) {
+        srand(static_cast<unsigned int>(std::time(nullptr)));
+        cube_t ret;
+        //scrambleMoves.clear();
+        for (int i = 0; i < moveNums; ++i) {
+            int index = rand() % 18;
+            cube = moveRotate(str2move[moves[index]],cube);
+            cout << moves[index] << " ";
+        }
+        cout << endl;
+    };
+
+    void printCube(cube_t cube) {
+        for (int i = 0; i < 12; i++) {
+            printf("edge block index : %d oriention %d\n", cube.edgeIndex[i], cube.edgeOrientation[i]);
+        }
+        for (int i = 0; i < 8; i++) {
+            printf("cornor block index : %d oriention %d\n", cube.cornorIndex[i], cube.cornorOrientation[i]);
+        }
+        printf("\n");
+    }
+
+
 private:
+    cube_t cube;
     vector<string> moves = { "U","U2","U'","D","D2","D'","F","F2","F'","B","B2","B'","L","L2","L'","R","R2","R'"};
 
     int8_t increaseCornorOri(int8_t input) {
