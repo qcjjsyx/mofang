@@ -264,6 +264,64 @@ public:
         return ret;
     };
 
+
+    cube_t generateCube(char* str) {
+        cube_t cube;
+        if (str[4] != 'B' || str[13] != 'L' || str[22] != 'U' || str[31] != 'R' || str[40] != 'F' || str[49] != 'D') {
+            printf("not legal center block!!\n");
+
+        }
+        for (int i = 0; i < 8; i++) {
+            int8_t face1 = map_cornors[i][0] - 1;
+            int8_t face2 = map_cornors[i][1] - 1;
+            int8_t face3 = map_cornors[i][2] - 1;
+            for (int j = 0; j < 8; j++) {
+                if (cornors[j][0] == str[face1] && cornors[j][1] == str[face2] && cornors[j][2] == str[face3]) {
+                    cube.cornorIndex[i] = j;
+                    cube.cornorOrientation[i] = 0;
+                    break;
+                }
+                else if (cornors[j][1] == str[face1] && cornors[j][2] == str[face2] && cornors[j][0] == str[face3]) {
+                    cube.cornorIndex[i] = j;
+                    cube.cornorOrientation[i] = 2;
+                    break;
+                }
+                else if (cornors[j][2] == str[face1] && cornors[j][0] == str[face2] && cornors[j][1] == str[face3]) {
+                    cube.cornorIndex[i] = j;
+                    cube.cornorOrientation[i] = 1;
+                    break;
+                }
+
+            }
+        }
+
+        for (int i = 0; i < 12; i++) {
+            int8_t face1 = map_edges[i][0] - 1;
+            int8_t face2 = map_edges[i][1] - 1;
+            for (int j = 0; j < 12; j++) {
+                if (edges[j][0] == str[face1] && edges[j][1] == str[face2]) {
+                    cube.edgeIndex[i] = j;
+                    cube.edgeOrientation[i] = 0;
+                    break;
+                }
+                else if (edges[j][1] == str[face1] && edges[j][0] == str[face2]) {
+                    cube.edgeIndex[i] = j;
+                    cube.edgeOrientation[i] = 1;
+                    break;
+                }
+
+            }
+        }
+
+        for (int i = 0; i < 12; i++) {
+            printf("edge block index : %d oriention %d\n", cube.edgeIndex[i], cube.edgeOrientation[i]);
+        }
+        for (int i = 0; i < 8; i++) {
+            printf("cornor block index : %d oriention %d\n", cube.cornorIndex[i], cube.cornorOrientation[i]);
+        }
+        return cube;
+    }
+
     void printCube(cube_t cube) {
         for (int i = 0; i < 12; i++) {
             printf("edge block index : %d oriention %d\n", cube.edgeIndex[i], cube.edgeOrientation[i]);
