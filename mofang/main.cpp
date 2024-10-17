@@ -8,6 +8,6 @@ int main() {
 	cube_t cube;
 	CubeState cubeState = CubeState();
 	cubeState.printCube(cube);
-	cubeState.scrambleCube(10, cube);
-	cubeState.printCube(cube);
+	cube_t ret = cubeState.scrambleCube(20, cube);
+	cubeState.printCube(ret);
 }

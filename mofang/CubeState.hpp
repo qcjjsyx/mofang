@@ -197,7 +197,7 @@ map<string, int> str2move{
 class CubeState {
 public:
     //vector<int> scrambleMoves;
-    cube_t moveRotate(int move, cube_t& cube) {
+    static cube_t moveRotate(int move, cube_t& cube) {
         int face = move / 3;
         int rotateCount = move % 3 + 1;
         cube_t ret = cube;
@@ -251,16 +251,17 @@ public:
         return ret;
     };
 
-    void scrambleCube(int moveNums, cube_t& cube) {
+    cube_t scrambleCube(int moveNums, cube_t& cube) {
         srand(static_cast<unsigned int>(std::time(nullptr)));
-        cube_t ret;
+        cube_t ret = cube;
         //scrambleMoves.clear();
         for (int i = 0; i < moveNums; ++i) {
             int index = rand() % 18;
-            cube = moveRotate(str2move[moves[index]],cube);
+            ret = moveRotate(str2move[moves[index]],ret);
             cout << moves[index] << " ";
         }
         cout << endl;
+        return ret;
     };
 
     void printCube(cube_t cube) {
@@ -275,10 +276,11 @@ public:
 
 
 private:
-    cube_t cube;
-    vector<string> moves = { "U","U2","U'","D","D2","D'","F","F2","F'","B","B2","B'","L","L2","L'","R","R2","R'"};
+    //cube_t cube;
+    //U, R2, F2, D, L2, B2
+    const vector<string> moves = { "U","U2","U'","D","D2","D'","F","F2","F'","B","B2","B'","L","L2","L'","R","R2","R'"};
 
-    int8_t increaseCornorOri(int8_t input) {
+    static int8_t increaseCornorOri(int8_t input) {
         int8_t tmp = input;
         if (input < 2) {
             tmp = 1;
@@ -288,7 +290,7 @@ private:
         }
         return (input+tmp);
     }
-    int8_t decreaseCornorOri(int8_t input) {
+    static int8_t decreaseCornorOri(int8_t input) {
         int8_t tmp = input;
         if (input > 0) {
             tmp = -1;
