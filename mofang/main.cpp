@@ -2,12 +2,14 @@
 #include "iostream"
 #include "Solution.hpp"
 #include "CubeState.hpp"
+#include "NewSolution.hpp"
 using namespace std;
 
+
+
+
+
 int main() {
-	cube_t cube;
-	CubeState cubeState = CubeState();
-	cubeState.printCube(cube);
-	cube_t ret = cubeState.scrambleCube(20, cube);
-	cubeState.printCube(ret);
+	NewSolution solution = NewSolution();
+	solution.solve();
 }

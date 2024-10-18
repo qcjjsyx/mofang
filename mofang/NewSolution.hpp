@@ -27,17 +27,48 @@ using namespace std;
 
 
 
+//phase1:只考虑角块方向，棱块方向，以及中间四个棱块的标号
+int8_t cornorOrientation[CORNORS_ORIENTATION_SIZE];
+int8_t edgeOrientation[EDGES_ORIENTATION_SIZE];
+int8_t middleEdgeArrangement[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE];
+
+int cornorOrientationMove[CORNORS_ORIENTATION_SIZE][MOVE_COUNT];
+int edgeOrientationMove[EDGES_ORIENTATION_SIZE][MOVE_COUNT];
+int middleEdgeArrangementMove[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE][MOVE_COUNT];
+
+int8_t cornorOrientationAndMiddleEdgeCom[CORNORS_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
+int8_t edgeOrientationAndMiddleEdgeCom[EDGES_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
+
+
+//phase2:完全复原
+//对各个魔方状态到目标状态的步数
+int8_t cornorPosition[CORNOR_POSITION_SIZE];
+int8_t udEdgePosition[UD_EDGES_POSITION_SIZE];
+int8_t middleEdgePosition[MIDDLE_EDGE_POSITION_SIZE];
+
+//cornorPositionMove[father][move] = next:father状态进行了move以后，变成了next状态。
+int cornorPositionMove[CORNOR_POSITION_SIZE][MOVE_COUNT];
+int udEdgePositionMove[UD_EDGES_POSITION_SIZE][MOVE_COUNT];
+int middleEdgePositionMove[MIDDLE_EDGE_POSITION_SIZE][MOVE_COUNT];
+
+int8_t cornorPositionAndMiddleEdgePos[CORNOR_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
+int8_t udEdgePositionAndMiddleEdgePos[UD_EDGES_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
+
+
 class NewSolution
 {
 public:
 	NewSolution() {
+		cout << "开始初始化" << endl;
 		init();
+		cout << "初始化完成" << endl;
 	};
 	~NewSolution() {};
 
 
-	void solve(cube_t cube) {
-
+	void solve() {
+		cout << "hello";
+		cout << (int)cornorPosition[0];
 	}
 
 private:
@@ -45,32 +76,32 @@ private:
 	int factorial_8[8] = { 1,2,6,24,120,720,5040,40320 };
 	int factorial_4[4] = { 1,2,6,24 };
 
-	//phase1:只考虑角块方向，棱块方向，以及中间四个棱块的标号
-	int8_t cornorOrientation[CORNORS_ORIENTATION_SIZE];
-	int8_t edgeOrientation[EDGES_ORIENTATION_SIZE];
-	int8_t middleEdgeArrangement[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE];
+	////phase1:只考虑角块方向，棱块方向，以及中间四个棱块的标号
+	//int8_t* cornorOrientation = new int8_t[CORNORS_ORIENTATION_SIZE];
+	//int8_t* edgeOrientation = new int8_t[EDGES_ORIENTATION_SIZE];
+	//int8_t* middleEdgeArrangement = new int8_t[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE];
 
-	int cornorOrientationMove[CORNORS_ORIENTATION_SIZE][MOVE_COUNT];
-	int edgeOrientationMove[EDGES_ORIENTATION_SIZE][MOVE_COUNT];
-	int middleEdgeArrangementMove[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE][MOVE_COUNT];
+	//int cornorOrientationMove[CORNORS_ORIENTATION_SIZE][MOVE_COUNT];
+	//int edgeOrientationMove[EDGES_ORIENTATION_SIZE][MOVE_COUNT];
+	//int middleEdgeArrangementMove[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE][MOVE_COUNT];
 
-	int8_t cornorOrientationAndMiddleEdgeCom[CORNORS_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
-	int8_t edgeOrientationAndMiddleEdgeCom[EDGES_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
+	//int8_t* cornorOrientationAndMiddleEdgeCom = new int8_t[CORNORS_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
+	//int8_t* edgeOrientationAndMiddleEdgeCom = new int8_t[EDGES_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
 
 
-	//phase2:完全复原
-	//对各个魔方状态到目标状态的步数
-	int8_t cornorPosition[CORNOR_POSITION_SIZE];
-	int8_t udEdgePosition[UD_EDGES_POSITION_SIZE];
-	int8_t middleEdgePosition[MIDDLE_EDGE_POSITION_SIZE];
+	////phase2:完全复原
+	////对各个魔方状态到目标状态的步数
+	//int8_t* cornorPosition = new int8_t[CORNOR_POSITION_SIZE];
+	//int8_t* udEdgePosition = new int8_t[UD_EDGES_POSITION_SIZE];
+	//int8_t* middleEdgePosition = new int8_t[MIDDLE_EDGE_POSITION_SIZE];
 
-	//cornorPositionMove[father][move] = next:father状态进行了move以后，变成了next状态。
-	int cornorPositionMove[CORNOR_POSITION_SIZE][MOVE_COUNT];
-	int udEdgePositionMove[UD_EDGES_POSITION_SIZE][MOVE_COUNT];
-	int middleEdgePositionMove[MIDDLE_EDGE_POSITION_SIZE][MOVE_COUNT];
+	////cornorPositionMove[father][move] = next:father状态进行了move以后，变成了next状态。
+	//int cornorPositionMove[CORNOR_POSITION_SIZE][MOVE_COUNT];
+	//int udEdgePositionMove[UD_EDGES_POSITION_SIZE][MOVE_COUNT];
+	//int middleEdgePositionMove[MIDDLE_EDGE_POSITION_SIZE][MOVE_COUNT];
 
-	int8_t cornorPositionAndMiddleEdgePos[CORNOR_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
-	int8_t udEdgePositionAndMiddleEdgePos[UD_EDGES_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
+	//int8_t* cornorPositionAndMiddleEdgePos = new int8_t[CORNOR_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
+	//int8_t* udEdgePositionAndMiddleEdgePos = new int8_t[UD_EDGES_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
 
 
 
@@ -136,7 +167,8 @@ private:
 		phase1FillBuffer(cube, edgeOrientation, EDGES_ORIENTATION_SIZE, eo_index);
 
 
-
+		phase2Pre();
+		phase1Pre();
 
 
 	}
@@ -151,6 +183,7 @@ private:
 		if (type == middle_edges_perm_index) {
 			middleEdgePos.push_back(cube);
 		}
+		dest[0] = 0;
 		while (!q.empty()) {
 			pair<cube_t, int> front = q.front();
 			int fatherIndex = calculateIndex(front.first, type);
@@ -228,11 +261,108 @@ private:
 
 
 	void phase2Pre() {
+		memset(cornorPositionAndMiddleEdgePos, 0xff, CORNOR_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE);
+		phase2_t start1;
+		start1.cornor = 0;
+		start1.edge2 = 0;
+		queue<pair<phase2_t, int>>q;
+		q.push(make_pair(start1, 0));
+		cornorPositionAndMiddleEdgePos[0] = 0;
+
+
+		while (!q.empty()) {
+			pair<phase2_t, int> front = q.front();
+			int depth = front.second;
+			for (int move = 0; move < 18; ++move) {
+				if (MOVELIMIT & (1 << move)) {
+					phase2_t newState;
+					newState.cornor = cornorPositionMove[front.first.cornor][move];
+					newState.edge2 = middleEdgeArrangementMove[front.first.edge2][move];
+					if (cornorPositionAndMiddleEdgePos[newState.cornor * 24 + newState.edge2] == -1) {
+						cornorPositionAndMiddleEdgePos[newState.cornor * 24 + newState.edge2] = depth + 1;
+						q.push(make_pair(newState, depth + 1));
+					}
+				}
+			}
+
+			q.pop();
+		}
+
+
+		memset(udEdgePositionAndMiddleEdgePos, 0xff, UD_EDGES_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE);
+		phase2_t start2;
+		queue<pair<phase2_t, int>> q2;
+		start2.edge1 = 0;
+		start2.edge2 = 0;
+		q2.push(make_pair(start2, 0));
+		udEdgePositionAndMiddleEdgePos[0] = 0;
+		while (!q2.empty()) {
+			pair<phase2_t, int> front = q2.front();
+			int depth = front.second;
+			for (int move = 0; move < 18; ++move) {
+				if (MOVELIMIT & (1 << move)) {
+					phase2_t newState;
+					newState.edge1 = udEdgePositionMove[front.first.edge1][move];
+					newState.edge2 = middleEdgeArrangementMove[front.first.edge2][move];
+					if (udEdgePositionAndMiddleEdgePos[newState.edge1 * 24 + newState.edge2] == -1) {
+						udEdgePositionAndMiddleEdgePos[newState.edge1 * 24 + newState.edge2] = depth + 1;
+						q2.push(make_pair(newState, depth + 1));
+					}
+				}
+			}
+			q2.pop();
+		}
 
 	}
 
-	void phase1Pre() {
 
+
+
+	void phase1Pre() {
+		phase1_t start;
+		start.co = 0;
+		start.middle_edge_combination = 0;
+		queue<pair<phase1_t, int>>q;
+		q.push(make_pair(start, 0));
+		memset(cornorOrientationAndMiddleEdgeCom, 0xff, CORNORS_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION);
+		cornorOrientationAndMiddleEdgeCom[0] = 0;
+		while (!q.empty()) {
+			pair<phase1_t, int> front = q.front();
+			int depth = front.second;
+			for (int move = 0; move < 18; ++move) {
+				phase1_t newState;
+				newState.co = cornorOrientationMove[front.first.co][move];
+				newState.middle_edge_combination = middleEdgeArrangementMove[front.first.middle_edge_combination][move];
+				if (cornorOrientationAndMiddleEdgeCom[newState.co*MIDDLE_EDGE_COMBINATION+newState.middle_edge_combination/24] == -1) {
+					q.push(make_pair(newState, depth + 1));
+					cornorOrientationAndMiddleEdgeCom[newState.co * MIDDLE_EDGE_COMBINATION + newState.middle_edge_combination / 24] = depth+1;
+				}
+			}
+			q.pop();
+		}
+
+
+		phase1_t start2;
+		start2.eo = 0;
+		start2.middle_edge_combination = 0;
+		queue<pair<phase1_t, int>> q2;
+		q2.push(make_pair(start2, 0));
+		memset(edgeOrientationAndMiddleEdgeCom, 0xff, EDGES_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION);
+		edgeOrientationAndMiddleEdgeCom[0] = 0;
+		while (!q.empty()) {
+			pair<phase1_t, int> front = q2.front();
+			int depth = front.second;
+			for (int move = 0; move < 18; ++move) {
+				phase1_t newState1;
+				newState1.eo = edgeOrientationMove[front.first.eo][move];
+				newState1.middle_edge_combination = middleEdgeArrangementMove[front.first.middle_edge_combination][move];
+				if (edgeOrientationAndMiddleEdgeCom[newState1.eo * MIDDLE_EDGE_COMBINATION + newState1.middle_edge_combination / 24] == -1) {
+					q2.push(make_pair(newState1, depth + 1));
+					edgeOrientationAndMiddleEdgeCom[newState1.eo * MIDDLE_EDGE_COMBINATION + newState1.middle_edge_combination / 24] = depth + 1;
+				}
+			}
+			q2.pop();
+		}
 	}
 
 	int calculateIndex(cube_t cube, int type) {
