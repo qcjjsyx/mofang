@@ -6,6 +6,7 @@
 #include "vector"
 #include "iostream"
 #include "queue"
+#include <algorithm> // max函数定义在此头文件中  
 
 
 using namespace std;
@@ -28,31 +29,31 @@ using namespace std;
 
 
 //phase1:只考虑角块方向，棱块方向，以及中间四个棱块的标号
-int8_t cornorOrientation[CORNORS_ORIENTATION_SIZE];
-int8_t edgeOrientation[EDGES_ORIENTATION_SIZE];
-int8_t middleEdgeArrangement[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE];
-
-int cornorOrientationMove[CORNORS_ORIENTATION_SIZE][MOVE_COUNT];
-int edgeOrientationMove[EDGES_ORIENTATION_SIZE][MOVE_COUNT];
-int middleEdgeArrangementMove[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE][MOVE_COUNT];
-
-int8_t cornorOrientationAndMiddleEdgeCom[CORNORS_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
-int8_t edgeOrientationAndMiddleEdgeCom[EDGES_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
-
-
-//phase2:完全复原
-//对各个魔方状态到目标状态的步数
-int8_t cornorPosition[CORNOR_POSITION_SIZE];
-int8_t udEdgePosition[UD_EDGES_POSITION_SIZE];
-int8_t middleEdgePosition[MIDDLE_EDGE_POSITION_SIZE];
-
-//cornorPositionMove[father][move] = next:father状态进行了move以后，变成了next状态。
-int cornorPositionMove[CORNOR_POSITION_SIZE][MOVE_COUNT];
-int udEdgePositionMove[UD_EDGES_POSITION_SIZE][MOVE_COUNT];
-int middleEdgePositionMove[MIDDLE_EDGE_POSITION_SIZE][MOVE_COUNT];
-
-int8_t cornorPositionAndMiddleEdgePos[CORNOR_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
-int8_t udEdgePositionAndMiddleEdgePos[UD_EDGES_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
+//int8_t cornorOrientation[CORNORS_ORIENTATION_SIZE];
+//int8_t edgeOrientation[EDGES_ORIENTATION_SIZE];
+//int8_t middleEdgeArrangement[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE];
+//
+//int cornorOrientationMove[CORNORS_ORIENTATION_SIZE][MOVE_COUNT];
+//int edgeOrientationMove[EDGES_ORIENTATION_SIZE][MOVE_COUNT];
+//int middleEdgeArrangementMove[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE][MOVE_COUNT];
+//
+//int8_t cornorOrientationAndMiddleEdgeCom[CORNORS_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
+//int8_t edgeOrientationAndMiddleEdgeCom[EDGES_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
+//
+//
+////phase2:完全复原
+////对各个魔方状态到目标状态的步数
+//int8_t cornorPosition[CORNOR_POSITION_SIZE];
+//int8_t udEdgePosition[UD_EDGES_POSITION_SIZE];
+//int8_t middleEdgePosition[MIDDLE_EDGE_POSITION_SIZE];
+//
+////cornorPositionMove[father][move] = next:father状态进行了move以后，变成了next状态。
+//int cornorPositionMove[CORNOR_POSITION_SIZE][MOVE_COUNT];
+//int udEdgePositionMove[UD_EDGES_POSITION_SIZE][MOVE_COUNT];
+//int middleEdgePositionMove[MIDDLE_EDGE_POSITION_SIZE][MOVE_COUNT];
+//
+//int8_t cornorPositionAndMiddleEdgePos[CORNOR_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
+//int8_t udEdgePositionAndMiddleEdgePos[UD_EDGES_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
 
 
 class NewSolution
@@ -66,9 +67,34 @@ public:
 	~NewSolution() {};
 
 
-	void solve() {
-		cout << "hello";
-		cout << (int)cornorPosition[0];
+
+
+	void solve(cube_t cube) {
+		int depth = 0;
+		while (true) {
+			moves_t moves(depth);
+			search_info_t search;
+
+			search.face = -1;
+			search.initstate = cube;
+			search.total_depth = depth;
+			search.current_depth = 0;
+			search.steps = &moves;
+			search.co_index = calculateIndex(cube, co_index);
+			search.eo_index = calculateIndex(cube, eo_index);
+			search.me_combine_index = calculateIndex(cube, me_combine_index);
+
+			if (DFSPhase1(search))
+				break;
+			depth++;
+			//if (depth > 50) {
+			//	cout << "unsolved" << endl;
+			//	return;
+			//}
+		}
+
+		cout << "solved" << endl;
+		
 	}
 
 private:
@@ -77,31 +103,31 @@ private:
 	int factorial_4[4] = { 1,2,6,24 };
 
 	////phase1:只考虑角块方向，棱块方向，以及中间四个棱块的标号
-	//int8_t* cornorOrientation = new int8_t[CORNORS_ORIENTATION_SIZE];
-	//int8_t* edgeOrientation = new int8_t[EDGES_ORIENTATION_SIZE];
-	//int8_t* middleEdgeArrangement = new int8_t[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE];
+	int8_t cornorOrientation[CORNORS_ORIENTATION_SIZE];
+	int8_t edgeOrientation[EDGES_ORIENTATION_SIZE];
+	int8_t middleEdgeArrangement[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE];
 
-	//int cornorOrientationMove[CORNORS_ORIENTATION_SIZE][MOVE_COUNT];
-	//int edgeOrientationMove[EDGES_ORIENTATION_SIZE][MOVE_COUNT];
-	//int middleEdgeArrangementMove[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE][MOVE_COUNT];
+	int cornorOrientationMove[CORNORS_ORIENTATION_SIZE][MOVE_COUNT];
+	int edgeOrientationMove[EDGES_ORIENTATION_SIZE][MOVE_COUNT];
+	int middleEdgeArrangementMove[MIDDLE_EDGES_POSITION_ORIENTATION_SIZE][MOVE_COUNT];
 
-	//int8_t* cornorOrientationAndMiddleEdgeCom = new int8_t[CORNORS_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
-	//int8_t* edgeOrientationAndMiddleEdgeCom = new int8_t[EDGES_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
+	int8_t cornorOrientationAndMiddleEdgeCom[CORNORS_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
+	int8_t edgeOrientationAndMiddleEdgeCom[EDGES_ORIENTATION_SIZE * MIDDLE_EDGE_COMBINATION];
 
 
 	////phase2:完全复原
 	////对各个魔方状态到目标状态的步数
-	//int8_t* cornorPosition = new int8_t[CORNOR_POSITION_SIZE];
-	//int8_t* udEdgePosition = new int8_t[UD_EDGES_POSITION_SIZE];
-	//int8_t* middleEdgePosition = new int8_t[MIDDLE_EDGE_POSITION_SIZE];
+	int8_t cornorPosition[CORNOR_POSITION_SIZE];
+	int8_t udEdgePosition[UD_EDGES_POSITION_SIZE];
+	int8_t middleEdgePosition[MIDDLE_EDGE_POSITION_SIZE];
 
-	////cornorPositionMove[father][move] = next:father状态进行了move以后，变成了next状态。
-	//int cornorPositionMove[CORNOR_POSITION_SIZE][MOVE_COUNT];
-	//int udEdgePositionMove[UD_EDGES_POSITION_SIZE][MOVE_COUNT];
-	//int middleEdgePositionMove[MIDDLE_EDGE_POSITION_SIZE][MOVE_COUNT];
+	//cornorPositionMove[father][move] = next:father状态进行了move以后，变成了next状态。
+	int cornorPositionMove[CORNOR_POSITION_SIZE][MOVE_COUNT];
+	int udEdgePositionMove[UD_EDGES_POSITION_SIZE][MOVE_COUNT];
+	int middleEdgePositionMove[MIDDLE_EDGE_POSITION_SIZE][MOVE_COUNT];
 
-	//int8_t* cornorPositionAndMiddleEdgePos = new int8_t[CORNOR_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
-	//int8_t* udEdgePositionAndMiddleEdgePos = new int8_t[UD_EDGES_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
+	int8_t cornorPositionAndMiddleEdgePos[CORNOR_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
+	int8_t udEdgePositionAndMiddleEdgePos[UD_EDGES_POSITION_SIZE * MIDDLE_EDGE_POSITION_SIZE];
 
 
 
@@ -365,6 +391,103 @@ private:
 		}
 	}
 
+
+
+	bool DFSPhase2(search_info_t& searchInfo) {
+		for (int move = 0; move < 18; ++move) {
+			if (MOVELIMIT & (1 << move)) {
+				if (searchInfo.face == move / 3)continue;
+				int ud_edges_perm_index = udEdgePositionMove[searchInfo.ud_edges_perm_index][move];
+				int middle_edges_perm_index = middleEdgePositionMove[searchInfo.middle_edges_perm_index][move];
+				int cornors_perm_index = cornorPositionMove[searchInfo.cornors_perm_index][move];
+				int val = max(cornorPositionAndMiddleEdgePos[cornors_perm_index*24+middle_edges_perm_index],udEdgePositionAndMiddleEdgePos[ud_edges_perm_index*24+middle_edges_perm_index]);
+				if (val + searchInfo.current_depth < searchInfo.total_depth) {
+					(*searchInfo.steps).steps[searchInfo.current_depth] = move;
+					if (val == 0) return true;
+					search_info_t newSearchInfo = searchInfo;
+					newSearchInfo.current_depth += 1;
+					newSearchInfo.ud_edges_perm_index = ud_edges_perm_index;
+					newSearchInfo.cornors_perm_index = cornors_perm_index;
+					newSearchInfo.middle_edges_perm_index = middle_edges_perm_index;
+					newSearchInfo.face = move / 3;
+					if (DFSPhase2(newSearchInfo))
+						return true;
+				}
+
+			}
+		}
+
+		return false;
+	}
+
+
+
+
+
+
+	//判断是否到达了Phase2
+	bool phase2(cube_t cube, moves_t moves) {
+		for (int i = 0; i < moves.vaildLength; ++i) {
+			cube = CubeState::moveRotate(moves.steps[i], cube);
+		}
+		int phase2_len = (MAX_STEP - moves.vaildLength) > 10 ? 10 : (MAX_STEP - moves.vaildLength);
+		for (int depth = 0; depth < phase2_len; ++depth) {
+			moves_t moves2(depth);
+			search_info_t searchInfo;
+			searchInfo.face = -1;
+			searchInfo.current_depth = 0;
+			searchInfo.total_depth = depth;
+			searchInfo.steps = &moves2;
+			searchInfo.cornors_perm_index = calculateIndex(cube, cornors_perm_index);
+			searchInfo.ud_edges_perm_index = calculateIndex(cube, ud_edges_perm_index);
+			searchInfo.middle_edges_perm_index = calculateIndex(cube, middle_edges_perm_index);
+
+			if (DFSPhase2(searchInfo)) {
+				printMoves(moves);
+				printMoves(moves2);//打印move后续加
+				return true;
+			}
+
+
+
+		}
+
+		return false;
+	}
+
+
+	bool DFSPhase1(search_info_t& search_info) {
+		for (int move = 0; move < 18; ++move) {
+			if (search_info.face == move / 3) continue;//一种剪枝
+
+			int eo_index = edgeOrientationMove[search_info.eo_index][move];
+			int me_combine_index = middleEdgeArrangementMove[search_info.me_combine_index][move];
+			int co_index = cornorOrientationMove[search_info.co_index][move];
+
+			int val = max(cornorOrientationAndMiddleEdgeCom[co_index*MIDDLE_EDGE_COMBINATION+me_combine_index/24], edgeOrientationAndMiddleEdgeCom[eo_index*MIDDLE_EDGE_COMBINATION+me_combine_index/24]);
+			if (val + search_info.current_depth < search_info.total_depth) {
+				(*search_info.steps).steps[search_info.current_depth] = move;
+				if (val == 0) {
+					if (phase2(search_info.initstate, *search_info.steps))
+							return true;//进行阶段二的搜索
+				}
+
+				search_info_t newSearchInfo = search_info;
+				newSearchInfo.current_depth += 1;
+				newSearchInfo.face = move / 3;
+				newSearchInfo.co_index = co_index;
+				newSearchInfo.eo_index = eo_index;
+				newSearchInfo.me_combine_index = me_combine_index;
+				if (DFSPhase1(newSearchInfo))
+					return true;
+			}
+
+		}
+
+
+		return false;
+	}
+
 	int calculateIndex(cube_t cube, int type) {
 		int ret = 0;
 		switch (type) {
@@ -426,6 +549,24 @@ private:
 		}
 
 		return ret;
+	}
+
+	void printMoves(moves_t moves) {
+		for (int i = 0; i < moves.vaildLength; ++i) {
+			cout << " ";
+			int type = moves.steps[i] % 3 + 1;
+			if (type == 3) {
+				cout << "UDFBLR"[moves.steps[i] / 3] << "'";
+			}
+			else if (type == 1) {
+				cout << "UDFBLR"[moves.steps[i] / 3];
+			}
+			else {
+				cout << "UDFBLR"[moves.steps[i] / 3] << type;
+			}
+
+
+		}
 	}
 
 

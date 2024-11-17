@@ -3,6 +3,7 @@
 #include "Solution.hpp"
 #include "CubeState.hpp"
 #include "NewSolution.hpp"
+#include "memory"
 using namespace std;
 
 
@@ -10,6 +11,11 @@ using namespace std;
 
 
 int main() {
-	NewSolution solution = NewSolution();
-	solution.solve();
+	shared_ptr<NewSolution> prs(new NewSolution());
+	
+	char s[55] = "BBBBBBRRRLLBLLBLLBUUUUUUUUUFRRFRRFRRLLLFFFFFFDDDDDDDDD";
+	CubeState cubeState;
+	cube_t cube;
+	cube_t cube1 = cubeState.scrambleCube(20, cube);
+	prs->solve(cube1);
 }

@@ -1,7 +1,7 @@
 #ifndef SEARCH
 #define SEARCH
 #include "CubeState.hpp"
-#define MAX_STEP 25
+#define MAX_STEP 20
 
 typedef struct {
 	int co;
