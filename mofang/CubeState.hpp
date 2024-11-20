@@ -124,15 +124,15 @@ static const int8_t face_cornors[6][4] = {
     {0,1,2,3},//U
     {4,5,6,7},//D
     {0,3,5,4},//F
-    {1,7,6,2},//B
+    {2,1,7,6},//B
     {3,2,6,5},//L
     {1,0,4,7}//R
 };
 
 
 static const int8_t map_cornors[8][3] = {
-    {27,39,24},
-    {21,9,28},
+    {27,39,34},
+    {21,28,9},
     {19,7,12},
     {25,18,37},
     {48,36,45},
@@ -251,18 +251,18 @@ public:
         return ret;
     };
 
-    cube_t scrambleCube(int moveNums, cube_t& cube) {
-        srand(static_cast<unsigned int>(std::time(nullptr)));
-        cube_t ret = cube;
-        //scrambleMoves.clear();
-        for (int i = 0; i < moveNums; ++i) {
-            int index = rand() % 18;
-            ret = moveRotate(str2move[moves[index]],ret);
-            cout << moves[index] << " ";
-        }
-        cout << endl;
-        return ret;
-    };
+    //cube_t scrambleCube(int moveNums, cube_t& cube) {
+    //    srand(static_cast<unsigned int>(std::time(nullptr)));
+    //    cube_t ret = cube;
+    //    //scrambleMoves.clear();
+    //    for (int i = 0; i < moveNums; ++i) {
+    //        int index = rand() % 18;
+    //        ret = moveRotate(str2move[moves[index]],ret);
+    //        cout << moves[index] << " ";
+    //    }
+    //    cout << endl;
+    //    return ret;
+    //};
 
 
     cube_t generateCube(char* str) {
@@ -313,12 +313,7 @@ public:
             }
         }
 
-        for (int i = 0; i < 12; i++) {
-            printf("edge block index : %d oriention %d\n", cube.edgeIndex[i], cube.edgeOrientation[i]);
-        }
-        for (int i = 0; i < 8; i++) {
-            printf("cornor block index : %d oriention %d\n", cube.cornorIndex[i], cube.cornorOrientation[i]);
-        }
+        printCube(cube);
         return cube;
     }
 

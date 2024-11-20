@@ -15,7 +15,7 @@ int main() {
 	
 	char s[55] = "BBBBBBRRRLLBLLBLLBUUUUUUUUUFRRFRRFRRLLLFFFFFFDDDDDDDDD";
 	CubeState cubeState;
-	cube_t cube;
-	cube_t cube1 = cubeState.scrambleCube(20, cube);
-	prs->solve(cube1);
+	cube_t cube = cubeState.generateCube(s);
+
+	prs->solve(cube);
 }
