@@ -1,5 +1,5 @@
 ## 魔方自动复原
-本文主要完成了魔方的自动还原。kociemba算法主要参考了：https://github.com/wangxiaoxiaohan/kociemba。   该算法我试了一下不能开箱即用，需要增加**#include<stdint>**在Linux上编译较为简单，直接运行make，windows我编译不来。
+本文主要完成了魔方的自动还原。kociemba算法主要参考了：https://github.com/wangxiaoxiaohan/kociemba。   该算法我试了一下不能开箱即用，需要增加一个头文件stdint。在Linux上编译较为简单，直接运行make，windows我编译不来。
 
 对于算法没有改进，只是对代码的结构有一定的修改，因为出于练习c++代码的目的，采用了对象的形式。不加入opencv的情况下可以开箱即用。
 
