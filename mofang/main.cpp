@@ -4,6 +4,7 @@
 #include "CubeState.hpp"
 #include "NewSolution.hpp"
 #include "memory"
+#include "utility.hpp"
 using namespace std;
 
 
@@ -11,11 +12,13 @@ using namespace std;
 
 
 int main() {
-	shared_ptr<NewSolution> prs(new NewSolution());
+	Utility utility;
+	utility.readFromCamera();
+	/*shared_ptr<NewSolution> prs(new NewSolution());
 	
 	char s[55] = "BBBBBBRRRLLBLLBLLBUUUUUUUUUFRRFRRFRRLLLFFFFFFDDDDDDDDD";
 	CubeState cubeState;
 	cube_t cube = cubeState.generateCube(s);
 
-	prs->solve(cube);
+	prs->solve(cube);*/
 }

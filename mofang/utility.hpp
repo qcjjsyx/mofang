@@ -40,11 +40,74 @@ public:
 		return ret;
 	}
 
+
+	void readFromCamera() {
+		VideoCapture capture(0);
+		//string writePath = "../temp/";
+		int i = 0;
+		Mat B, L, U, R, F, D;
+		while (true)
+		{
+			if (i == 6) break;
+			
+			Mat frame;
+			capture >> frame;
+			rectangle(frame, Point(170, 90), Point(470, 390), Scalar(0, 0, 255), 3, 1, 0);
+			//cout << frame.size() << endl;
+			if (32 == waitKey(20)&&i==0) {			//¿Õ¸ñÅÄÕÕ
+				/*string name = writePath + to_string(i) + ".jpg";
+				imwrite(name, frame);
+				cout << name << endl;*/
+				cout << 'B' << endl;
+				B = frame;
+				i++;
+			}
+
+			if (32 == waitKey(20) && i == 1) {			//¿Õ¸ñÅÄÕÕ
+				cout << 'L' << endl;
+				L = frame;
+				i++;
+			}
+
+			if (32 == waitKey(20) && i == 2) {			//¿Õ¸ñÅÄÕÕ
+				cout << 'U' << endl;
+				U = frame;
+				i++;
+			}
+
+			if (32 == waitKey(20) && i == 3) {			//¿Õ¸ñÅÄÕÕ
+				cout << 'R' << endl;
+				R = frame;
+				i++;
+			}
+			if (32 == waitKey(20) && i == 4) {			//¿Õ¸ñÅÄÕÕ
+				cout << 'F' << endl;
+				F = frame;
+				i++;
+			}
+
+			if (32 == waitKey(20) && i == 5) {			//¿Õ¸ñÅÄÕÕ
+				cout << 'D' << endl;
+				D = frame;
+				i++;
+			}
+
+			imshow("¶ÁÈ¡ÊÓÆµ", frame);//640*480
+			waitKey(20);	//ÑÓÊ±30
+		}
+		cout << "²É¼¯Íê³É" << endl;
+		B = B(Rect(170, 90, 470, 390));
+		L = L(Rect(170, 90, 470, 390));
+		U = U(Rect(170, 90, 470, 390));
+		R = R(Rect(170, 90, 470, 390));
+		F = F(Rect(170, 90, 470, 390));
+		D = D(Rect(170, 90, 470, 390));
+	}
 private:
 	string image2Str(Mat img) {
 		if (img.empty()) {
 			cout << "error:can't load image" << endl;
-			return;
+			return " ";
 		}
 		string ret = "";
 		int rows = 3, cols = 3;
