@@ -158,6 +158,20 @@ static const int8_t map_edges[12][2] = {
     {	4,11}
 };
 
+static const char* colorCornor[8]{
+    "YBR",
+    "YRG",
+    "YGO",
+    "YOB",
+    "WRB",
+    "WBO",
+    "WOG",
+    "WGR",
+};
+
+static const char* colorEdge[12]{
+
+};
 
 static const char* cornors[8]{
     "UFR",
@@ -265,7 +279,7 @@ public:
     //};
 
 
-    cube_t generateCube(char* str) {
+    cube_t generateCube(string str) {
         cube_t cube;
         if (str[4] != 'B' || str[13] != 'L' || str[22] != 'U' || str[31] != 'R' || str[40] != 'F' || str[49] != 'D') {
             printf("not legal center block!!\n");
@@ -355,4 +369,5 @@ private:
     }
 
 };
+
 #endif

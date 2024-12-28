@@ -12,13 +12,16 @@ using namespace std;
 
 
 int main() {
-	Utility utility;
-	utility.readFromCamera();
-	/*shared_ptr<NewSolution> prs(new NewSolution());
+	Utility utility;//opencvÄ£¿é
+	//utility.readFromCamera();
+	shared_ptr<NewSolution> prs(new NewSolution());
 	
-	char s[55] = "BBBBBBRRRLLBLLBLLBUUUUUUUUUFRRFRRFRRLLLFFFFFFDDDDDDDDD";
+	//string s = "BBBBBBRRRLLBLLBLLBUUUUUUUUUFRRFRRFRRLLLFFFFFFDDDDDDDDD";
+	string s1= "GGGGGGRRROOGOOGOOGYYYYYYYYYBRRBRRBRROOOBBBBBBWWWWWWWWW";
+	string s2 = utility.trans(s1);
+	//cout << s2 << endl;
 	CubeState cubeState;
-	cube_t cube = cubeState.generateCube(s);
+	cube_t cube = cubeState.generateCube(s2);
 
-	prs->solve(cube);*/
+	prs->solve(cube);
 }

@@ -41,7 +41,7 @@ public:
 	}
 
 
-	void readFromCamera() {
+	string readFromCamera() {
 		VideoCapture capture(0);
 		//string writePath = "../temp/";
 		int i = 0;
@@ -102,6 +102,32 @@ public:
 		R = R(Rect(170, 90, 470, 390));
 		F = F(Rect(170, 90, 470, 390));
 		D = D(Rect(170, 90, 470, 390));
+
+
+		string ret = "";
+		ret += image2Str(B);
+		ret += image2Str(L);
+		ret += image2Str(U);
+		ret += image2Str(R);
+		ret += image2Str(F);
+		ret += image2Str(D);
+		return ret;
+	}
+
+	/*从颜色到面的转换，记录原始状态
+	白色：D, 黄色：U, 蓝色：F, 红色：R, 绿色：B, 橙色：L*/
+	string trans(string from) {
+		string to = from;
+		for (int i = 0; i < from.length(); ++i) {
+			if (from[i] == 'W') to[i] = 'D';
+			if (from[i] == 'Y') to[i] = 'U';
+			if (from[i] == 'B') to[i] = 'F';
+			if (from[i] == 'R') to[i] = 'R';
+			if (from[i] == 'G') to[i] = 'B';
+			if (from[i] == 'O') to[i] = 'L';
+		}
+		//to[54] = '\0';
+		return to;
 	}
 private:
 	string image2Str(Mat img) {
